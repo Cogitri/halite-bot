@@ -30,10 +30,10 @@ class TimeValueAgent:
     determine which subsequent series of moves will maximize that value.
     """
 
-    time_value_ratio: int
-    min_turns_to_spawn: int
-    max_ships: int
-    spawn_payoff_factor: int
+    time_value_ratio: float
+    min_turns_to_spawn: float
+    max_ships: float
+    spawn_payoff_factor: float
     debug: bool
 
     def __init__(
