@@ -6,5 +6,6 @@ in pkgs.mkShell {
     python39Packages.ipykernel
     python39Packages.ipython
     python39Packages.pip
+    python39Packages.black
   ];
 }
