@@ -1,14 +1,15 @@
 from kaggle_environments import make, evaluate
-from submission import get_time_value_agent, random_agent
+from submission import TimeValueAgent, random_agent
 
 """Trainingsplatz zum testen der programmierten Bots."""
 
 
 def main(gegner="random"):
     env = make("halite", debug=True)
+    time_value_agent = TimeValueAgent()
     env.agents = {
-        "random": get_time_value_agent(),
-        "timevalue": random_agent,
+        "timevalue": lambda obs, config: time_value_agent.run(obs, config),
+        "random": random_agent,
     }
     env.run(["timevalue", gegner, gegner, gegner])
 
