@@ -4,6 +4,8 @@ import traceback
 from random import choice, randint, shuffle
 import math
 
+BOTNAME = "Stonks"
+
 
 def agent(obs, config):
     tva = TimeValueAgent()
