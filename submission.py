@@ -528,7 +528,6 @@ class TimeValueAgent:
             len(self.ships) == 1
             and len(self.shipyards) == 0
             and self.player_halite > self.config.spawnCost + self.config.convertCost
-            and len(self.shipyards) == 0
         ):
             return [[unplanned[0], -1]]
 
