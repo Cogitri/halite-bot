@@ -1,6 +1,9 @@
+import copy
 import sys
 import traceback
 from pprint import pprint
+
+from helpers import Board
 
 
 def agent(
