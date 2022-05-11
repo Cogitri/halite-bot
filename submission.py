@@ -30,11 +30,11 @@ class TimeValueAgent:
     determine which subsequent series of moves will maximize that value.
     """
 
-    __time_value_ratio: int
-    __min_turns_to_spawn: int
-    __max_ships: int
-    __spawn_payoff_factor: int
-    __debug: bool
+    time_value_ratio: int
+    min_turns_to_spawn: int
+    max_ships: int
+    spawn_payoff_factor: int
+    debug: bool
 
     def __init__(
         self,
@@ -71,11 +71,11 @@ class TimeValueAgent:
         debug:
             If True, prints some general values on what the agent is doing.
         """
-        self.__debug = debug
-        self.__max_ships = max_ships
-        self.__min_turns_to_spawn = min_turns_to_spawn
-        self.__time_value_ratio = time_value_ratio
-        self.__spawn_payoff_factor = spawn_payoff_factor
+        self.debug = debug
+        self.max_ships = max_ships
+        self.min_turns_to_spawn = min_turns_to_spawn
+        self.time_value_ratio = time_value_ratio
+        self.spawn_payoff_factor = spawn_payoff_factor
 
     @property
     def player(self):
@@ -122,7 +122,7 @@ class TimeValueAgent:
         self.time_value_ratios = []
         for i in range(40):
             self.time_value_ratios.append(genval)
-            genval = genval * self.__time_value_ratio
+            genval = genval * self.time_value_ratio
 
         self.ship_move_cost_ratios = []
         genval = 1.0
@@ -132,7 +132,7 @@ class TimeValueAgent:
 
         try:
             plans = self.make_plans()
-            if self.__debug:
+            if self.debug:
                 print("Plans:", plans)
 
             action = {}
@@ -170,20 +170,20 @@ class TimeValueAgent:
                 if (
                     self.config.spawnCost <= self.player_halite
                     and self.config.episodeSteps - self.obs.step
-                    >= self.__min_turns_to_spawn
+                    >= self.min_turns_to_spawn
                     and not shipyard in updated_ships
-                    and ship_count < self.__max_ships
+                    and ship_count < self.max_ships
                     and (
                         ship_count == 0
                         or remaining_halite / (ship_count + 1)
-                        > config.spawnCost * self.__spawn_payoff_factor
+                        > config.spawnCost * self.spawn_payoff_factor
                     )
                 ):
                     ship_count += 1
                     self.player_halite -= config.spawnCost
                     action[self.board.shipyards[shipyard]["uid"]] = "SPAWN"
 
-            if self.__debug:
+            if self.debug:
                 print("Action:", action)
             return action
         except Exception as e:
@@ -548,7 +548,7 @@ class TimeValueAgent:
                 ship, plans, self.board.ships[ship]["halite"]
             )
 
-            if self.__debug:
+            if self.debug:
                 print(
                     "Best path:",
                     best_ship_path,
