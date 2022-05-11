@@ -4,7 +4,7 @@ from submission import TimeValueAgent, random_agent
 """Trainingsplatz zum testen der programmierten Bots."""
 
 
-def main(gegner="random"):
+def main(gegner="timevalue"):
     env = make("halite", debug=True)
     time_value_agent = TimeValueAgent()
     env.agents = {

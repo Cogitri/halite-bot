@@ -1,4 +1,12 @@
 {
   "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix",
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "emeraldwalk.runonsave": {
+    "commands": [
+      // {
+      //   "match": "submission.py",
+      //   "cmd": "${workspaceFolder}/.venv/bin/python main.py"
+      // }
+    ]
+  }
 }

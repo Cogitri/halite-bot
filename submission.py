@@ -1,8 +1,8 @@
 import copy
+import math
 import sys
 import traceback
 from random import choice, randint, shuffle
-import math
 
 BOTNAME = "Stonks"
 
@@ -110,6 +110,9 @@ class TimeValueAgent:
         self.obs = obs
         self.board = Board(self.obs, config)
         self.player_halite, self.shipyards, self.ships = self.obs.players[self.player]
+        self.enemys = [x for i, x in enumerate(self.obs.players) if i != self.player]
+        # if self.obs.step == 1:
+        #     print(self.enemys)
         self.shipyards = list(self.shipyards.values())
         self.config = config
 
@@ -183,6 +186,7 @@ class TimeValueAgent:
                 print("Action:", action)
             return action
         except Exception as e:
+            raise e
             info = sys.exc_info()
             print(traceback.print_exception(*info))
 
@@ -404,6 +408,30 @@ class TimeValueAgent:
 
         return min_distance
 
+    def check_possible_collision_with_enemies(self, pos):
+        """
+        Checks if there's an enemy one field next to where we want to move, in case it moves onto the same field as we want.
+        """
+
+        enemy_ships = []
+
+        for enemy in self.obs.players:
+            if enemy == self.player:
+                continue
+            # 2 is index for ships
+            enemy_ships.append(enemy[2])
+
+        for neighbor_neighbor in self.get_neighbors(pos):
+            for neighbor in self.get_neighbors(neighbor_neighbor):
+                for ships_of_enemy in enemy_ships:
+                    for ship_data in ships_of_enemy.values():
+                        # 0 index is pos
+                        pos = ship_data[0]
+                        if pos == neighbor:
+                            return False
+
+        return True
+
     def get_best_move(
         self, pos, plans, starting_halite=0, path_so_far=None, max_depth=3
     ):
@@ -458,6 +486,15 @@ class TimeValueAgent:
             return copy.copy(path_so_far)
 
         next_pos_choices = self.get_neighbors(pos)
+
+        if max_depth == 1:
+            next_pos_choices = list(
+                filter(
+                    lambda pos: self.check_possible_collision_with_enemies(pos),
+                    next_pos_choices,
+                )
+            )
+
         next_pos_choices.append(pos)
         next_pos_choices.append(-1)  # Used to represent dropoff conversion
 
