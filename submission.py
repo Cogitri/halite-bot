@@ -77,6 +77,18 @@ class TimeValueAgent:
         self.__time_value_ratio = time_value_ratio
         self.__spawn_payoff_factor = spawn_payoff_factor
 
+    @property
+    def player(self):
+        return self.obs.player
+
+    @property
+    def size(self):
+        return self.config.size
+
+    @property
+    def halite(self):
+        return self.obs.halite
+
     def run(self, obs, config):
         """Central function for an agent.
 
@@ -99,14 +111,11 @@ class TimeValueAgent:
         """
 
         # Purely for the convenience of shorter names
-        self.player = obs.player
-        self.size = config.size
-        self.halite = obs.halite
-        self.board = Board(obs, config)
-        self.player_halite, self.shipyards, self.ships = obs.players[self.player]
+        self.obs = obs
+        self.board = Board(self.obs, config)
+        self.player_halite, self.shipyards, self.ships = self.obs.players[self.player]
         self.shipyards = list(self.shipyards.values())
         self.config = config
-        self.obs = obs
 
         # Using this to avoid later, repeated computations
         genval = 1.0
