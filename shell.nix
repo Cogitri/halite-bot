@@ -3,5 +3,8 @@ let
 in pkgs.mkShell {
   buildInputs = with pkgs; [
     python39Packages.poetry
+    python39Packages.ipykernel
+    python39Packages.ipython
+    python39Packages.pip
   ];
 }
