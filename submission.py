@@ -2,11 +2,21 @@ import copy
 import sys
 import traceback
 from pprint import pprint
+from random import choice
 
 from helpers import Board
 
 
-def agent(
+def random_agent(obs):
+    action = {}
+    ship_id = list(obs.players[obs.player][2].keys())[0]
+    ship_action = choice(["NORTH", "SOUTH", "EAST", "WEST", None])
+    if ship_action is not None:
+        action[ship_id] = ship_action
+    return action
+
+
+def get_time_value_agent(
     time_value_ratio=0.95,
     min_turns_to_spawn=20,
     max_ships=200,
