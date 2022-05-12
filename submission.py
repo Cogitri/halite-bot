@@ -109,15 +109,20 @@ def agent(obs, config):
 
             # Purely for the convenience of shorter names
             self.board = Board(self.obs, config)
-            self.player_halite, self.shipyards, self.ships = self.obs.players[self.player]
-            self.enemys = [x for i, x in enumerate(self.obs.players) if i != self.player]
+            self.player_halite, self.shipyards, self.ships = self.obs.players[
+                self.player
+            ]
+            self.enemys = [
+                x for i, x in enumerate(self.obs.players) if i != self.player
+            ]
             # if self.obs.step == 1:
             #     print(self.enemys)
             self.shipyards = list(self.shipyards.values())
 
             # Information about the enemy
             self.enemys_halite, self.enemy_shipyards, self.enemy_ships = map(
-                list, zip(*[x for i, x in enumerate(self.obs.players) if i != self.player])
+                list,
+                zip(*[x for i, x in enumerate(self.obs.players) if i != self.player]),
             )
             self.enemy_ships_pos = []
             for i in [i.values() for i in self.enemy_ships]:
@@ -353,7 +358,9 @@ def agent(obs, config):
 
             remaining_steps = self.distance_to_closest_dropoff(path[-1])
             if remaining_steps + len(path) < len(self.time_value_ratios):
-                total_time_value_loss = self.time_value_ratios[remaining_steps + len(path)]
+                total_time_value_loss = self.time_value_ratios[
+                    remaining_steps + len(path)
+                ]
             else:
                 total_time_value_loss = self.time_value_ratios[-1]
                 print(
@@ -645,7 +652,6 @@ def agent(obs, config):
                         return True
             return False
 
-
     class Board:
         @staticmethod
         def get_to_pos(size, pos, direction):
@@ -745,5 +751,3 @@ def agent(obs, config):
 
     tva = TimeValueAgent()
     return tva.run(obs, config)
-
-
