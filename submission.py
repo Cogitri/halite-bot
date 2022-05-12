@@ -750,10 +750,3 @@ class Board:
             # print("Deleting to_pos:",to_pos, "for", ship_uid)
             # print(self.possible_ships[to_pos])
             del self.possible_ships[to_pos][ship_uid]
-
-
-# Für meinen Seelenfrieden, damit ich nicht immer die Datei wechseln muss *triggered*
-if __name__ == "__main__":
-    from main import main
-
-    main()
