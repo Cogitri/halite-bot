@@ -10,12 +10,12 @@ BOTNAME = "Stonks"
 
 
 def random_agent(obs, config):
-    agent(obs, config)
+    time_value_agent(obs, config)
 
 
-def agent(obs, config):
+def time_value_agent(obs, config):
     tva = TimeValueAgent()
-    tva.run(obs, config)
+    return tva.run(obs, config)
 
 
 class TimeValueAgent:
