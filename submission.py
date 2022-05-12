@@ -9,6 +9,10 @@ from tabnanny import check
 BOTNAME = "Stonks"
 
 
+def random_agent(obs, config):
+    agent(obs, config)
+
+
 def agent(obs, config):
     tva = TimeValueAgent()
     tva.run(obs, config)
@@ -746,15 +750,6 @@ class Board:
             # print("Deleting to_pos:",to_pos, "for", ship_uid)
             # print(self.possible_ships[to_pos])
             del self.possible_ships[to_pos][ship_uid]
-
-
-def random_agent(obs):
-    action = {}
-    ship_id = list(obs.players[obs.player][2].keys())[0]
-    ship_action = choice(["NORTH", "SOUTH", "EAST", "WEST", None])
-    if ship_action is not None:
-        action[ship_id] = ship_action
-    return action
 
 
 # Für meinen Seelenfrieden, damit ich nicht immer die Datei wechseln muss *triggered*
