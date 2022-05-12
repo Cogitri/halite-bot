@@ -11,7 +11,7 @@ def main(gegner="timevalue"):
         "timevalue": lambda obs, config: time_value_agent.run(obs, config),
         "random": random_agent,
     }
-    env.run(["timevalue", gegner, gegner, gegner])
+    env.run(["timevalue", "timevalue", "timevalue", "timevalue"])
 
     out = env.render(mode="html")
     f = open("wiederholung.html", "w")

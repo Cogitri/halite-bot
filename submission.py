@@ -106,15 +106,25 @@ class TimeValueAgent:
 
         """
 
-        # Purely for the convenience of shorter names
         self.obs = obs
+        self.config = config
+
+        # Purely for the convenience of shorter names
         self.board = Board(self.obs, config)
         self.player_halite, self.shipyards, self.ships = self.obs.players[self.player]
         self.enemys = [x for i, x in enumerate(self.obs.players) if i != self.player]
         # if self.obs.step == 1:
         #     print(self.enemys)
         self.shipyards = list(self.shipyards.values())
-        self.config = config
+
+        # Information about the enemy
+        self.enemys_halite, self.enemy_shipyards, self.enemy_ships = map(
+            list, zip(*[x for i, x in enumerate(self.obs.players) if i != self.player])
+        )
+        self.enemy_ships_pos = []
+        for i in [i.values() for i in self.enemy_ships]:
+            for j in i:
+                self.enemy_ships_pos.append(j[0])
 
         # Using this to avoid later, repeated computations
         genval = 1.0
@@ -738,3 +748,10 @@ def random_agent(obs):
     if ship_action is not None:
         action[ship_id] = ship_action
     return action
+
+
+# Für meinen Seelenfrieden, damit ich nicht immer die Datei wechseln muss *triggered*
+if __name__ == "__main__":
+    from main import main
+
+    main()
