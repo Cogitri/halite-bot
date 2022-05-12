@@ -2,7 +2,9 @@ import copy
 import math
 import sys
 import traceback
+from cgitb import reset
 from random import choice, randint, shuffle
+from tabnanny import check
 
 BOTNAME = "Stonks"
 
@@ -418,17 +420,32 @@ class TimeValueAgent:
 
         return min_distance
 
-    def check_possible_collision_with_enemies(self, pos) -> bool:
+    def check_possible_collision_with_enemies(self, pos, current_pos) -> bool:
         """
         Checks if there's an enemy one field next to where we want to move, in case it moves onto the same field as we want.
 
         :ret bool: True if there's no collision, False if there is one (for filtering)
         """
+        for ship in self.ships.values():
+            if ship[0] == current_pos:
+                current_pos_ship = ship
+
+        def check_conflicts(neighbor):
+            for pos2 in self.enemy_ships_pos:
+                if pos2 == neighbor:
+                    for player in self.enemy_ships:
+                        for ship in player.values():
+                            if ship[0] == neighbor:
+                                return not ship[1] <= current_pos_ship[1]
 
         for neighbor in self.get_neighbors(pos):
-            for pos in self.enemy_ships_pos:
-                if pos == neighbor:
-                    return False
+            res = check_conflicts(neighbor)
+            if res is not None:
+                return res
+
+        res = check_conflicts(pos)
+        if res is not None:
+            return res
 
         return True
 
@@ -490,7 +507,7 @@ class TimeValueAgent:
         if max_depth == 3:
             next_pos_choices = list(
                 filter(
-                    lambda pos: self.check_possible_collision_with_enemies(pos),
+                    lambda p: self.check_possible_collision_with_enemies(p, pos),
                     next_pos_choices,
                 )
             )
