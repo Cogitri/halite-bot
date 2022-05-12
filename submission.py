@@ -423,22 +423,12 @@ class TimeValueAgent:
         Checks if there's an enemy one field next to where we want to move, in case it moves onto the same field as we want.
         """
 
-        enemy_ships = []
-
-        for enemy in self.obs.players:
-            if enemy == self.player:
-                continue
-            # 2 is index for ships
-            enemy_ships.append(enemy[2])
-
         for neighbor_neighbor in self.get_neighbors(pos):
             for neighbor in self.get_neighbors(neighbor_neighbor):
-                for ships_of_enemy in enemy_ships:
-                    for ship_data in ships_of_enemy.values():
-                        # 0 index is pos
-                        pos = ship_data[0]
-                        if pos == neighbor:
-                            return False
+                for enemy_pos in self.enemy_ships_pos:
+                    pos = enemy_pos
+                    if pos == neighbor:
+                        return False
 
         return True
 
