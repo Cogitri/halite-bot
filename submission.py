@@ -418,17 +418,17 @@ class TimeValueAgent:
 
         return min_distance
 
-    def check_possible_collision_with_enemies(self, pos):
+    def check_possible_collision_with_enemies(self, pos) -> bool:
         """
         Checks if there's an enemy one field next to where we want to move, in case it moves onto the same field as we want.
+
+        :ret bool: True if there's no collision, False if there is one (for filtering)
         """
 
-        for neighbor_neighbor in self.get_neighbors(pos):
-            for neighbor in self.get_neighbors(neighbor_neighbor):
-                for enemy_pos in self.enemy_ships_pos:
-                    pos = enemy_pos
-                    if pos == neighbor:
-                        return False
+        for neighbor in self.get_neighbors(pos):
+            for pos in self.enemy_ships_pos:
+                if pos == neighbor:
+                    return False
 
         return True
 
@@ -487,7 +487,7 @@ class TimeValueAgent:
 
         next_pos_choices = self.get_neighbors(pos)
 
-        if max_depth == 1:
+        if max_depth == 3:
             next_pos_choices = list(
                 filter(
                     lambda pos: self.check_possible_collision_with_enemies(pos),

@@ -1,4 +1,5 @@
-from kaggle_environments import make, evaluate
+from kaggle_environments import evaluate, make
+
 from submission import TimeValueAgent, random_agent
 
 """Trainingsplatz zum testen der programmierten Bots."""
